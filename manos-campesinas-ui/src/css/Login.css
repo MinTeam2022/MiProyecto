@@ -1,0 +1,76 @@
+.login_container {
+  width: 591px;
+  height: 451px;
+  background: rgba(250, 255, 251, 0.79);
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+
+.login_background{
+    background-image: url("../assets/login_background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: grid;
+    place-items: center;
+    height: 100%;
+}
+
+.login_title {
+    font-family: Noto Serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+    line-height: 65px;
+    text-align: center;
+    color: #33691E;
+}
+
+.login_button {
+  width: 132px;
+  height: 40px;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.52);
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+}
+
+.login_button:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+.login_input {
+  width: 408px;
+  height: 43px;
+  background: rgba(255, 255, 255, 0.38);
+  border-radius: 10px;
+  padding:15px;
+  font-size:1.3rem;
+  border:0;
+  text-align: center;
+  line-height: 43px;
+}
+
+.login_input::placeholder{
+  font-size: inherit;
+  color:grey;
+}
+.login_input:focus{
+    background: white;
+  }
+
+.login_form{
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
