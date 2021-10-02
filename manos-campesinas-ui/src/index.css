@@ -1,0 +1,37 @@
+* {
+    margin:0;
+    padding: 0;
+    font-family: Roboto;
+}
+
+body {
+    height: 100vh;
+}
+
+#root{
+    height: 100%;
+}
+
+table{
+    width: 100%;
+    /* border-collapse: collapse; */
+}
+th{
+    background: #C4C4C4;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 30px;
+    text-align: center;
+}
+
+td{
+    height: 40px;
+    background-color: antiquewhite;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 26px;
+    /* identical to box height */
+    text-align: center;
+}

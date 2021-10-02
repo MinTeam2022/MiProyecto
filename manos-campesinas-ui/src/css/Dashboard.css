@@ -1,0 +1,15 @@
+.dashboard_container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dashboard_content {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(100px, 20%) 1fr;
+}
+
+.dashboard_main {
+  padding: 1.4rem;
+}
