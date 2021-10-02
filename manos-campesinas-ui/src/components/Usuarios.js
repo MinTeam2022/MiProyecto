@@ -93,8 +93,18 @@ const Usuarios = (props) => {
             <h1>Usuarios</h1>
             <form onSubmit={agregarUsuario}>
                 <input type="text" placeholder="Nombre" value={nombre} onChange={handleNombreChange} />
-                <input type="text" placeholder="Rol" value={rol} onChange={handleRolChange} />
-                <input type="text" placeholder="Estado" value={estado} onChange={handleEstadoChange} />
+                
+                <select name="rol" onChange={handleRolChange}>
+                    <option value=".." selected>..</option>
+                    <option value="Vendedor">Vendedor</option>
+                    <option value="Cliente">Cliente</option>  
+                </select>
+                <select name="estado" onChange={handleEstadoChange}>
+                    <option value=".." selected>..</option>
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>  
+                </select>
+                
                 <button type="submit">Agregar</button>
             </form>
             {successMessage && <p className="productos_success">Usuario agregado</p>}

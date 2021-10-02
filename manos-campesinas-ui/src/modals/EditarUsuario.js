@@ -73,12 +73,20 @@ const EditarUsuario = props => {
 
                             <label htmlFor="edit_nombre">
                                 Rol
-                                <input type="text" name="rol" height="120" value={usuarioFormData.rol} onChange={handleFormChange} />
+                                <select name="rol" onChange={handleFormChange}>
+                                    <option value=".." selected>..</option>
+                                    <option value="Vendedor">Vendedor</option>
+                                    <option value="Cliente">Cliente</option>  
+                                </select>                                
                             </label>
 
                             <label htmlFor="edit_nombre">
                                 Estado
-                                <input type="text" name="estado" value={usuarioFormData.estado} onChange={handleFormChange} />
+                                <select name="estado" onChange={handleFormChange}>
+                                    <option value=".." selected>..</option>
+                                    <option value="Activo">Activo</option>
+                                    <option value="Inactivo">Inactivo</option>  
+                                </select>
                             </label>
                             <div className="edit_modal_btn_group">
                                 <button className="btn-success" type="submit">Guardar</button>
