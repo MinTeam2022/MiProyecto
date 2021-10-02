@@ -1,0 +1,39 @@
+.edit_modal_product_form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin:20px;
+    padding: 10px;
+    height: 80%;
+}
+
+.edit_modal_btn_group{
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+.edit_modal_btn_group >button {
+    width: 132px;
+    height: 40px;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    cursor: pointer;
+    color:white;
+    border:none;
+}
+
+.btn-success{
+    background-color: #3BD883;
+}
+
+.btn-cancel{
+    background-color: rgb(236, 69, 69);;
+}
