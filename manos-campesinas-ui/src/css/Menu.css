@@ -1,0 +1,68 @@
+.menu_container {
+  height: 100%;
+  background: #e7e7e7;
+}
+
+.menu_item {
+  height: 89px;
+  list-style-type: none;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 89px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.menu_item > a {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 89px;
+  color:black;
+  /* identical to box height */
+  text-align: center;
+  text-decoration-line: none;
+  text-align: center;
+}
+.menu_item > a:visited {
+  color: inherit;
+  text-decoration-line: inherit;
+}
+
+.menu_is-active {
+  background: #999b98;
+  color: white !important;
+}
+
+.menu_subitem{
+  height: 89px;
+  list-style-type: none;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 89px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+.menu_subitem > a {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 89px;
+  color:black;
+  /* identical to box height */
+  text-align: center;
+  text-decoration-line: none;
+  text-align: center;
+}
