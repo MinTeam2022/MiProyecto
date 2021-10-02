@@ -3,7 +3,7 @@ import '../css/VentasHistorial.css'
 // ES5 Imports https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
 //Dependencias
 import { useState } from 'react'
-import Ventas from '../modals/Ventas'
+import HistorialVentas from '../modals/HistorialVentas'
 //Componentes
 
 const initialVentasList = [
@@ -127,7 +127,7 @@ const VentasHistorial = props => {
                 </tbody>
 
             </table>
-            <Ventas
+            <HistorialVentas
                 isOpen={modalIsOpen}
                 venta={selectVenta}
                 handleClose={handleCloseModal}
