@@ -1,0 +1,53 @@
+.navbar_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #33691E;
+}
+
+.navbar_title {
+  width: 362px;
+  height: 50px;
+  text-align: center;
+  font-family: Noto Serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 49px;
+  text-align: center;
+
+  color: #efeaea;
+}
+
+.navbar_buttons {
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+  width: 280px;
+}
+
+.navbar_buttons > .navbar_rol{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+    color: #EFEAEA;
+}
+
+.navbar_logout_button{
+    width: 105px;
+    border-radius: 10px;
+    border:none;
+    cursor:pointer;
+    font-size:1rem;
+    font-weight: 500;
+    font-family: Roboto;
+
+}
+.navbar_logout_button:hover{
+    background-color: rgb(236, 69, 69);
+    color:white;
+}
