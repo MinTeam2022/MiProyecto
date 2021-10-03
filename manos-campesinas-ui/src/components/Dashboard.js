@@ -9,6 +9,7 @@ import Navbar from "../layout/Navbar";
 import Usuarios from "./Usuarios";
 import Productos from "./Productos";
 import VentasHistorial from "./VentasHistorial";
+import RegistrarVenta from "./RegistrarVenta";
 
 
 
@@ -33,6 +34,7 @@ const Dashboard = (props) => {
                         <Route path={`${match.path}/productos`} component={Productos} />
                         <Route path={`${match.path}/usuarios`} component={Usuarios} />
                         <Route path={`${match.path}/ventas/historial`} component={VentasHistorial} />
+                        <Route path={`${match.path}/ventas/registrar`} component={RegistrarVenta} />
                         {/* Ventas registro */}
                         <Route exact path={`${match.path}`} component={Productos} />
                     </Switch>
