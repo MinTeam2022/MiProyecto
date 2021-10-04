@@ -65,7 +65,7 @@ const RegistrarVenta = (props) => {
      
     const [carrito, setCarrito] = useState([])
     function addCarrito () {
-        onclick = 
+        //onclick = 
     }
           
      
