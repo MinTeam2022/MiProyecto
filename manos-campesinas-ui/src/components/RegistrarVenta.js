@@ -74,7 +74,6 @@ const RegistrarVenta = (props) => {
     }
 
 
-
     // Productos
 
     const agregarProductoACarrito = producto => {
@@ -91,16 +90,12 @@ const RegistrarVenta = (props) => {
         for (const carProducto of Carrito) {
             sum += carProducto.precio
         }
-
         setTotalCarrito(sum)
     }
 
     const closeModal = () => {
         setModalIsOpen(false)
     }
-
-
-
 
     return (
         <>

@@ -1,12 +1,15 @@
 import '../css/EditarUsuario.css'
+import '../css/EditarUsuario.css'
 
 import { useEffect, useState } from 'react';
 import ReactModal from 'react-modal';
+import UsuarioExitoso from '../modals/UsuarioExitoso'
 
 
 const EditarUsuario = props => {
 
     const { isOpen, handleClose, usuario, handleSave } = props
+    const [modalIsOpen, setModalIsOpen] = useState(false)
 
     const [usuarioFormData, setUsuarioFormData] = useState({
         nombre: "",
@@ -28,6 +31,11 @@ const EditarUsuario = props => {
     const handleSubmit = event => {
         event.preventDefault()
         handleSave(usuarioFormData)
+        setModalIsOpen(true)
+    }
+
+    const handleCloseModal = () => {        
+        setModalIsOpen(false)
     }
 
     return (
@@ -93,11 +101,15 @@ const EditarUsuario = props => {
                                 <button className="btn-cancel" onClick={handleClose}>Cancelar</button>
                             </div>
                         </form>
-
                     </>
                 }
 
             </ReactModal>
+            <UsuarioExitoso
+                isOpen={modalIsOpen}                
+                handleClose={handleCloseModal}
+            />
+            
         </>
     )
 }
