@@ -1,11 +1,53 @@
 import '../css/RegistrarVenta.css'
 import { useState } from 'react'
 
-const RegistrarVenta = (props) => {  
+import RegistroExitoso from '../modals/RegistroExitoso'
+
+const initialCarList = [
+]
+
+
+const initialProductList = [
+    {
+        id: 1,
+        nombre: "Arepas",
+        descripcion: "Paquete X 5",
+        precio: 5000
+
+    },
+    {
+        id: 2,
+        nombre: "Cocadas",
+        descripcion: "Paquete X 10",
+        precio: 10000
+
+    },
+    {
+        id: 3,
+        nombre: "Salsa de Aguacate",
+        descripcion: "Paquete X 1",
+        precio: 20000
+
+    },
+    {
+        id: 4,
+        nombre: "Almojabana",
+        descripcion: "Paquete X 1",
+        precio: 12000
+
+    },
+]
+
+const RegistrarVenta = (props) => {
 
     const [Cliente, setCliente] = useState("")
     const [Documento, setDocumento] = useState("")
     const [successMessage, setSuccessMessage] = useState(false)
+    const [Carrito, setCarrito] = useState(initialCarList)
+    const [totalCarrito, setTotalCarrito] = useState(0)
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+
+
 
     const handleClienteChange = event => {
         setCliente(event.target.value)
@@ -18,7 +60,7 @@ const RegistrarVenta = (props) => {
         setCliente("")
         setDocumento("")
     }
-    
+
     const RegistrarVenta = (event) => {
         event.preventDefault();
         let newSell = {
@@ -26,60 +68,49 @@ const RegistrarVenta = (props) => {
             Cliente: Cliente,
             Documento: Documento,
         }
-        setSuccessMessage(true)
+        calcularTotalCarrito()
+        setModalIsOpen(true)
         cleanFields()
     }
 
+
+
     // Productos
 
-    const initialProductList = [
-        {
-            id: 1,
-            nombre: "Arepas",
-            descripcion: "Paquete X 5",
-            precio: 5000
-    
-        },
-        {
-            id: 2,
-            nombre: "Cocadas",
-            descripcion: "Paquete X 10",
-            precio: 10000
-    
-        },
-        {
-            id: 3,
-            nombre: "Salsa de Aguacate",
-            descripcion: "Paquete X 1",
-            precio: 20000
-    
-        },
-        {
-            id: 4,
-            nombre: "Almojabana",
-            descripcion: "Paquete X 1",
-            precio: 12000
-    
-        },
-    ]
-     
-    const [carrito, setCarrito] = useState([])
-    function addCarrito () {
-        //onclick = 
+    const agregarProductoACarrito = producto => {
+        let newCarrito = Carrito.concat(producto)
+        setCarrito(newCarrito)
     }
-          
-     
+    const eliminarProductoCarrito = indexProductAElminar => {
+        let newCarrito = Carrito.filter((producto, index) => indexProductAElminar !== index)
+        setCarrito(newCarrito)
+
+    }
+    const calcularTotalCarrito = () => {
+        let sum = 0
+        for (const carProducto of Carrito) {
+            sum += carProducto.precio
+        }
+
+        setTotalCarrito(sum)
+    }
+
+    const closeModal = () => {
+        setModalIsOpen(false)
+    }
+
+
+
+
     return (
         <>
             <h3>RegistrarVenta</h3>
             <br></br>
-                <form onSubmit={RegistrarVenta}>
-                <input type="text" placeholder="Cliente" value={Cliente} onChange={handleClienteChange} />
-                <input type="text" placeholder="Documento" value={Documento} onChange={handleDocumentoChange} />
-                <br></br>
-                <br></br>
-                <h1>Productos</h1>
-                <br></br>
+
+            <br></br>
+            <br></br>
+            <h1>Productos</h1>
+            <br></br>
             <table className="productos_table">
                 <tbody className="productos_table_body">
                     <tr>
@@ -87,7 +118,7 @@ const RegistrarVenta = (props) => {
                         <th>Nombre</th>
                         <th>Descripcion</th>
                         <th>Precio</th>
-                        <th>cantidad</th>
+                        <th>Acción</th>
                     </tr>
                     {initialProductList.map((product) =>
                         <tr key={product.id}>
@@ -96,20 +127,59 @@ const RegistrarVenta = (props) => {
                             <td>{product.descripcion}</td>
                             <td>{product.precio}</td>
                             <td>
-                                <button id="btn_add" type="submit">Agregar</button>
+                                <button id="btn_add" onClick={() => agregarProductoACarrito(product)}>Agregar</button>
                             </td>
                         </tr>
-                        )
-                        }
+                    )}
                 </tbody>
 
             </table>
             <br></br>
-                <button type="submit" >Guardar</button>
-            </form>
+
+            <h3>Carrito</h3>
+            <input type="text" placeholder="Cliente" value={Cliente} onChange={handleClienteChange} />
+            <input type="text" placeholder="Documento" value={Documento} onChange={handleDocumentoChange} />
+            <table className="carrito_table">
+                <tbody className="carrito_table_body">
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Precio</th>
+                        <th></th>
+                    </tr>
+                    {Carrito.map((carProduct, index) =>
+                        <tr key={index}>
+                            <td>{carProduct.id}</td>
+                            <td>{carProduct.nombre}</td>
+                            <td>{carProduct.descripcion}</td>
+                            <td>{carProduct.precio}</td>
+                            <td>
+                                <button id="btn_add" type="submit" onClick={() => eliminarProductoCarrito(index)}>Eliminar</button>
+                            </td>
+                        </tr>
+                    )}
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>Total</th>
+                        <th>{totalCarrito}</th>
+                        <th></th>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button onClick={RegistrarVenta} >Guardar</button>
+            <button onClick={calcularTotalCarrito}>Calcular total</button>
+
             <br></br>
             <br></br>
-            {successMessage && <p className="reg_success">Venta Registrada</p>} 
+            <RegistroExitoso
+                isOpen={modalIsOpen}
+                total={totalCarrito}
+                handleClose={closeModal}
+            />
+            {successMessage && <p className="reg_success">Venta Registrada</p>}
         </>
 
     )
