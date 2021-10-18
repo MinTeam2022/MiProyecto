@@ -2,52 +2,40 @@ import '../css/Productos.css'
 
 // ES5 Imports https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
 //Dependencias
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import EditarProducto from '../modals/EditarProducto'
+import axios from 'axios'
+
+
+const backendUrl = "http://localhost:8080/products"
 //Componentes
 
-const initialProductList = [
-    {
-        id: 1,
-        nombre: "Arepas",
-        descripcion: "Paquete X 5",
-        precio: 5000
-
-    },
-    {
-        id: 2,
-        nombre: "Cocadas",
-        descripcion: "Paquete X 10",
-        precio: 10000
-
-    },
-    {
-        id: 3,
-        nombre: "Salsa de Aguacate",
-        descripcion: "Paquete X 1",
-        precio: 20000
-
-    },
-    {
-        id: 4,
-        nombre: "Almojabana",
-        descripcion: "Paquete X 1",
-        precio: 12000
-
-    },
-]
 
 const Productos = (props) => {
 
     // State #https://reactjs.org/docs/state-and-lifecycle.html
-    const [productosList, setProductsList] = useState(initialProductList)
+    const [productosList, setProductsList] = useState([])
     const [nombre, setNombre] = useState("")
     const [descripcion, setDescripcion] = useState("")
-    const [precio, setPrecio] = useState(0)
-    const [successMessage, setSuccessMessage] = useState(false)
+    const [precio, setPrecio] = useState("")
+    const [notification, setNotification] = useState({
+        message: '',
+        state: 'notification-success',
+        visible: false
+
+    })
 
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [selectProduct, setSelectedProduct] = useState({})
+
+
+    useEffect(() => {
+        const fecthData = async () => {
+            const { data } = await axios.get(backendUrl)
+            setProductsList(data)
+        }
+        fecthData()
+    }, [])
 
 
     // Arrow function https://www.w3schools.com/Js/js_arrow_function.asp
@@ -68,23 +56,52 @@ const Productos = (props) => {
     }
 
 
-    const eliminarProducto = id => {
-        setProductsList(productosList.filter(product => product.id !== id))
+    const eliminarProducto = async (id) => {
+        try {
+            await axios.delete(`${backendUrl}/${id}`)
+            setProductsList(productosList.filter(product => product.id !== id))
+            showNotification("Producto eliminado exitosamente", "notification-success")
+        } catch (error) {
+            showNotification("Hubo un error eliminando el product", "notification-error")
+        }
+
     }
 
-    const agregarProducto = (event) => {
+    const agregarProducto = async (event) => {
         event.preventDefault();
         let newProducto = {
-            id: productosList[productosList.length - 1].id + 1,
-            nombre: nombre,
-            descripcion: descripcion,
-            precio: precio
+            name: nombre,
+            description: descripcion,
+            price: precio
         }
-        let newProductsList = productosList.concat(newProducto)
-        setProductsList(newProductsList)
-        setSuccessMessage(true)
-        cleanFields()
+        try {
+            const response = await axios.post(backendUrl, newProducto)
+            newProducto = response.data
+            let newProductsList = productosList.concat(newProducto)
+            setProductsList(newProductsList)
+            showNotification("Producto agregado exitosamente", "notification-success")
+            cleanFields()
 
+        } catch (error) {
+            showNotification("Hubo un error agregando", "notification-error")
+        }
+
+
+    }
+
+    const showNotification = (message, state = "notification-success") => {
+        setNotification({
+            message,
+            state,
+            visible: true
+        })
+        setTimeout(() => {
+            setNotification({
+                message: '',
+                state: 'notification-success',
+                visible: false
+            })
+        }, 5000)
     }
 
     const MostrarEditarProductoModal = producto => {
@@ -97,29 +114,42 @@ const Productos = (props) => {
         setModalIsOpen(false)
     }
 
-    const editarProducto = productoEditado => {
-        const indexProductAEditar = productosList.findIndex(producto => producto.id === productoEditado.id)
-        let newProductsList = productosList
-        if (indexProductAEditar !== -1) {
-            newProductsList[indexProductAEditar] = productoEditado
-            setProductsList(newProductsList)
-            setSelectedProduct({})
+    const editarProducto = async (productoEditado) => {
+
+        try {
+            await axios.put(`${backendUrl}/${productoEditado.id}`, productoEditado)
+            const indexProductAEditar = productosList.findIndex(producto => producto.id === productoEditado.id)
+            let newProductsList = productosList
+            if (indexProductAEditar !== -1) {
+                newProductsList[indexProductAEditar] = productoEditado
+                setProductsList(newProductsList)
+                setSelectedProduct({})
+            }
             setModalIsOpen(false)
+            showNotification('Producto editado exitosamente')
+        } catch (error) {
+            showNotification('Hubo un error editando el producto', 'notification-error')
+
         }
+
     }
 
     return (
 
         <>
-            <h1>Productos</h1>
-            <form onSubmit={agregarProducto}>
+            <h2>Crear nuevo producto</h2>
+            <form className="productos_form" onSubmit={agregarProducto}>
                 <input type="text" placeholder="Nombre" value={nombre} onChange={handleNombreChange} />
                 <input type="text" placeholder="Descripcion" value={descripcion} onChange={handleDescripcionChange} />
                 <input type="number" placeholder="Precio" value={precio} onChange={handlePrecioChange} />
-                <button type="submit">Agregar</button>
+                <button type="submit" className="btn btn-success">Agregar</button>
             </form>
-            {successMessage && <p className="productos_success">Producto agregado</p>}
-            <table className="productos_table">
+            {notification.visible && <p className={notification.state}>{notification.message}</p>}
+            <br />
+            <h2>Productos</h2>
+            <table className="productos_table" style={{
+                marginTop: '20px'
+            }}>
                 <tbody className="productos_table_body">
                     <tr>
                         <th>Id</th>
@@ -131,9 +161,9 @@ const Productos = (props) => {
                     {productosList.map((product) =>
                         <tr key={product.id}>
                             <td>{product.id}</td>
-                            <td>{product.nombre}</td>
-                            <td>{product.descripcion}</td>
-                            <td>{product.precio}</td>
+                            <td>{product.name}</td>
+                            <td>{product.description}</td>
+                            <td>{product.price}</td>
                             <td>
                                 <button className="products_edit_btn" onClick={() => MostrarEditarProductoModal(product)}>editar</button>
                                 <button className="products_delete_btn" onClick={() => eliminarProducto(product.id)}>eliminar</button>
