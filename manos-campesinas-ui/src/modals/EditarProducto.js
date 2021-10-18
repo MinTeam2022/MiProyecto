@@ -9,9 +9,9 @@ const EditarProducto = props => {
     const { isOpen, handleClose, producto, handleSave } = props
 
     const [productFormData, setProductFormData] = useState({
-        nombre: "",
+        name: "",
         description: "",
-        precio: 0
+        price: 0
     })
 
     useEffect(() => {
@@ -68,17 +68,17 @@ const EditarProducto = props => {
                         <form className="edit_modal_product_form" onSubmit={handleSubmit}>
                             <label htmlFor="edit_nombre">
                                 Nombre
-                                <input type="text" name="nombre" value={productFormData.nombre} onChange={handleFormChange} />
+                                <input type="text" name="name" value={productFormData.name} onChange={handleFormChange} />
                             </label>
 
                             <label htmlFor="edit_nombre">
                                 Descripcion
-                                <input type="text" name="descripcion" height="120" value={productFormData.descripcion} onChange={handleFormChange} />
+                                <input type="text" name="description" height="120" value={productFormData.description} onChange={handleFormChange} />
                             </label>
 
                             <label htmlFor="edit_nombre">
                                 Precio
-                                <input type="number" name="precio" value={productFormData.precio} onChange={handleFormChange} />
+                                <input type="number" name="price" value={productFormData.price} onChange={handleFormChange} />
                             </label>
                             <div className="edit_modal_btn_group">
                                 <button className="btn-success" type="submit">Guardar</button>

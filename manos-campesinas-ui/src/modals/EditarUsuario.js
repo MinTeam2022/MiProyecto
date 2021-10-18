@@ -9,9 +9,14 @@ const EditarUsuario = props => {
     const { isOpen, handleClose, usuario, handleSave } = props
 
     const [usuarioFormData, setUsuarioFormData] = useState({
-        nombre: "",
-        rol: "",
-        estado: ""
+        name: "",
+        role: "",
+        status: "",
+        username: "",
+        password: "",
+        mail: "",
+        documentId: ""
+
     })
 
     useEffect(() => {
@@ -48,7 +53,7 @@ const EditarUsuario = props => {
                     content: {
                         position: 'absolute',
                         maxWidth: "500px",
-                        maxHeight: "300px",
+                        maxHeight: "400px",
                         margin: "auto",
                         border: '1px solid #ccc',
                         background: '#fff',
@@ -68,24 +73,38 @@ const EditarUsuario = props => {
                         <form className="edit_modal_product_form" onSubmit={handleSubmit}>
                             <label htmlFor="edit_nombre">
                                 Nombre
-                                <input type="text" name="nombre" value={usuarioFormData.nombre} onChange={handleFormChange} />
+                                <input type="text" name="name" value={usuarioFormData.name} onChange={handleFormChange} />
+                            </label>
+                            {usuarioFormData.username &&
+                                <label htmlFor="edit_nombre">
+                                    Username
+                                    <input type="text" name="username" value={usuarioFormData.username} onChange={handleFormChange} />
+                                </label>
+                            }
+                            <label htmlFor="edit_nombre">
+                                Email
+                                <input type="email" name="mail" value={usuarioFormData.mail} onChange={handleFormChange} />
+                            </label>
+                            <label htmlFor="edit_nombre">
+                                Documento
+                                <input type="number" name="documentId" value={usuarioFormData.documentId} onChange={handleFormChange} />
                             </label>
 
                             <label htmlFor="edit_nombre">
                                 Rol
-                                <select name="rol" onChange={handleFormChange}>
-                                    <option value=".." selected>..</option>
-                                    <option value="Vendedor">Vendedor</option>
-                                    <option value="Cliente">Cliente</option>  
-                                </select>                                
+                                <select name="role" onChange={handleFormChange} value={usuarioFormData.role}>
+                                    <option>Seleccionar un rol</option>
+                                    <option value="vendedor">Vendedor</option>
+                                    <option value="cliente">Cliente</option>
+                                </select>
                             </label>
 
                             <label htmlFor="edit_nombre">
                                 Estado
-                                <select name="estado" onChange={handleFormChange}>
-                                    <option value=".." selected>..</option>
-                                    <option value="Activo">Activo</option>
-                                    <option value="Inactivo">Inactivo</option>  
+                                <select name="status" onChange={handleFormChange} value={usuarioFormData.status}>
+                                    <option value="Seleccionar estado">Seleccionar estado...</option>
+                                    <option value="activo">Activo</option>
+                                    <option value="inactivo">Inactivo</option>
                                 </select>
                             </label>
                             <div className="edit_modal_btn_group">
