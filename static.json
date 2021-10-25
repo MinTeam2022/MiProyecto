@@ -1,0 +1,6 @@
+{
+	"root":"manos-campesinas-ui/build",
+	"routes":{
+		"manos-campesinas-ui/**":""index.html"
+	}
+}
