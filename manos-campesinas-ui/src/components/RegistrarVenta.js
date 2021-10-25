@@ -5,9 +5,8 @@ import RegistroExitoso from '../modals/RegistroExitoso'
 import axios from 'axios'
 import { UseCart, useCartDispatch } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
+import { backendUrl } from '../utils/constants'
 
-
-const backendUrl = "http://localhost:8080"
 
 const RegistrarVenta = (props) => {
     const auth = useAuth()

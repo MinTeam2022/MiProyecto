@@ -4,6 +4,7 @@ const cors = require('cors');
 const pino = require('pino-http')()
 const passport = require('passport')
 const passportConfig = require('./config/passport');
+const { sequelize } = require('./models')
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -33,7 +34,7 @@ app.get('/auth/google/callback',
     (req, res) => {
         const { req: reqInfo, ...userInfo } = req.user
         const auth = JSON.stringify(userInfo)
-        res.redirect(`${proc.env.FRONTEND_HOST}/callback?auth=${auth}`)
+        res.redirect(`${process.env.FRONTEND_HOST}/callback?auth=${auth}`)
     }
 )
 
@@ -42,6 +43,12 @@ app.use('/products', productsRoute)
 app.use('/orders', ordersRoute)
 
 
-app.listen(port, () => {
+app.listen(port, async () => {
+    try {
+        await sequelize.authenticate();
+        console.log('Connection has been established successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
     console.log(`Manoscampesinas app listening at http://localhost:${port}`);
 });

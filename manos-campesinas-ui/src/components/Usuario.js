@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 import EditarUsuario from '../modals/EditarUsuario'
 //Componentes
 
+import { backendUrl } from '../utils/constants';
+
 import axios from 'axios';
 
 
@@ -28,7 +30,7 @@ const Usuarios = (props) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/users")
+                const response = await axios.get(`${backendUrl}/users`)
                 setUsuariosList(response.data)
             } catch (error) {
                 console.error(error)
@@ -71,7 +73,7 @@ const Usuarios = (props) => {
 
     const eliminarUsuario = async (id) => {
         try {
-            await axios.delete("http://localhost:8080/users/" + id)
+            await axios.delete(backendUrl + "/users/" + id)
             setUsuariosList(usuariosList.filter(usuario => usuario.id !== id))
         } catch (error) {
             if (error.reponse.status === 404) {
@@ -93,7 +95,7 @@ const Usuarios = (props) => {
             documentId: documentId
         }
         try {
-            const response = await axios.post("http://localhost:8080/users", newUsuario)
+            const response = await axios.post(backendUrl + "/users", newUsuario)
             newUsuario = response.data
             let newUsuariosList = usuariosList.concat(newUsuario)
             setUsuariosList(newUsuariosList)
@@ -127,7 +129,7 @@ const Usuarios = (props) => {
     const editarUsuario = async (usuarioEditado) => {
         const id = usuarioEditado.id
         try {
-            await axios.put("http://localhost:8080/users/" + id, usuarioEditado)
+            await axios.put(backendUrl + "/users/" + id, usuarioEditado)
             const indexUsuarioAEditar = usuariosList.findIndex(usuario => usuario.id === usuarioEditado.id)
             let newUsuariosList = usuariosList
             if (indexUsuarioAEditar !== -1) {

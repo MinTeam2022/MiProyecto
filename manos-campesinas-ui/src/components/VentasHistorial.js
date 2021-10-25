@@ -3,10 +3,9 @@ import '../css/Usuarios.css'
 // ES5 Imports https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
 //Dependencias
 import { useEffect, useState } from 'react'
-import HistorialVentas from '../modals/HistorialVentas'
 import axios from 'axios'
+import { backendUrl } from '../utils/constants'
 //Componentes
-const backendUrl = "http://localhost:8080/orders"
 
 const VentasHistorial = (props) => {
 
@@ -34,7 +33,7 @@ const VentasHistorial = (props) => {
                     ...options
                 }
             }
-            const response = await axios.get(backendUrl, options)
+            const response = await axios.get(`${backendUrl}/orders`, options)
             setVentasList(response.data)
         } catch (error) {
             console.error(error)

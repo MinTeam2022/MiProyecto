@@ -2,12 +2,13 @@ import '../css/Login.css'
 
 import { Redirect } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { backendUrl } from '../utils/constants'
 
 function Login(props) {
     const auth = useAuth()
 
     const goToLogin = () => {
-        let path = "http://localhost:8080/auth/google"
+        let path = backendUrl + "/auth/google"
         window.location.href = path
     }
     if (auth) {

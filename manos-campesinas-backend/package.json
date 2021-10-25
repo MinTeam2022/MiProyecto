@@ -10,7 +10,8 @@
     "migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
     "seed:all": "npx sequelize-cli db:seed:all",
     "seed:undo:all": "npx sequelize-cli db:seed:undo:all",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku:push": "git push https://git.heroku.com/api-manos-campesinas.git HEAD:master"
   },
   "author": "",
   "license": "ISC",

@@ -3,8 +3,7 @@ const router = express.Router()
 const isAdminOrVendedor = require('../middlewares/isAdminOrVendedor')
 const authentication = require('../middlewares/authentication')
 
-const models = require('../models')
-const User = models.User
+const { User } = require('../models')
 
 router.get('/',
     // authentication,

@@ -17,6 +17,7 @@ module.exports = app => {
         callbackURL: '/auth/google/callback',
         scope: ['email', 'profile'],
         session: false,
+        proxy: true,
         passReqToCallback: true
     },
         async (req, accessToken, refreshToken, profile, cb) => {

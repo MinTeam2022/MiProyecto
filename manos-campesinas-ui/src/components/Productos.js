@@ -5,9 +5,8 @@ import '../css/Productos.css'
 import { useEffect, useState } from 'react'
 import EditarProducto from '../modals/EditarProducto'
 import axios from 'axios'
+import { backendUrl } from '../utils/constants'
 
-
-const backendUrl = "http://localhost:8080/products"
 //Componentes
 
 
@@ -31,7 +30,7 @@ const Productos = (props) => {
 
     useEffect(() => {
         const fecthData = async () => {
-            const { data } = await axios.get(backendUrl)
+            const { data } = await axios.get(`${backendUrl}/products`)
             setProductsList(data)
         }
         fecthData()
@@ -58,7 +57,7 @@ const Productos = (props) => {
 
     const eliminarProducto = async (id) => {
         try {
-            await axios.delete(`${backendUrl}/${id}`)
+            await axios.delete(`${backendUrl}/products/${id}`)
             setProductsList(productosList.filter(product => product.id !== id))
             showNotification("Producto eliminado exitosamente", "notification-success")
         } catch (error) {
@@ -75,7 +74,7 @@ const Productos = (props) => {
             price: precio
         }
         try {
-            const response = await axios.post(backendUrl, newProducto)
+            const response = await axios.post(`${backendUrl}/products`, newProducto)
             newProducto = response.data
             let newProductsList = productosList.concat(newProducto)
             setProductsList(newProductsList)
@@ -117,7 +116,7 @@ const Productos = (props) => {
     const editarProducto = async (productoEditado) => {
 
         try {
-            await axios.put(`${backendUrl}/${productoEditado.id}`, productoEditado)
+            await axios.put(`${backendUrl}/products/${productoEditado.id}`, productoEditado)
             const indexProductAEditar = productosList.findIndex(producto => producto.id === productoEditado.id)
             let newProductsList = productosList
             if (indexProductAEditar !== -1) {
