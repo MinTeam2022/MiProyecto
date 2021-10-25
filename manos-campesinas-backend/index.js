@@ -6,7 +6,7 @@ const passport = require('passport')
 const passportConfig = require('./config/passport');
 
 const app = express();
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 8080;
 
 const usersRoute = require('./routes/users')
 const productsRoute = require('./routes/products')
@@ -33,11 +33,10 @@ app.get('/auth/google/callback',
     (req, res) => {
         const { req: reqInfo, ...userInfo } = req.user
         const auth = JSON.stringify(userInfo)
-        res.redirect(`http://localhost:3000/callback?auth=${auth}`)
+        res.redirect(`${proc.env.FRONTEND_HOST}/callback?auth=${auth}`)
     }
 )
 
-app.get('/error', (req, res) => res.send("error logging in"));
 app.use('/users', usersRoute)
 app.use('/products', productsRoute)
 app.use('/orders', ordersRoute)

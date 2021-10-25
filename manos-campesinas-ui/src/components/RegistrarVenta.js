@@ -124,7 +124,7 @@ const RegistrarVenta = (props) => {
                             <td>{product.description}</td>
                             <td>{product.price}</td>
                             <td>
-                                <button id="btn_add" type="submit">Agregar</button>
+                                <button id="btn_add" onClick={() => agregarProductoACarrito(product)}>Agregar</button>
                             </td>
                         </tr>
                     )
