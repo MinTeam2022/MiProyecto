@@ -1,17 +1,22 @@
 const express = require('express')
 const router = express.Router()
+const isAdminOrVendedor = require('../middlewares/isAdminOrVendedor')
+const authentication = require('../middlewares/authentication')
 
 const models = require('../models')
 const User = models.User
 
-router.get('/', (req, res) => {
-    User.findAll().then(users => {
-        res.status(200).json(users);
-    }).catch(error => {
-        res.status(503).send()
-    })
+router.get('/',
+    // authentication,
+    // isAdminOrVendedor,
+    (req, res) => {
+        User.findAll().then(users => {
+            res.status(200).json(users);
+        }).catch(error => {
+            res.status(503).send()
+        })
 
-})
+    })
 
 //Obtener un usuario por id
 router.get('/:id', (req, res) => {

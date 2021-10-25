@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Redirect, Switch, Route } from "react-router-dom";
-import { withRouter } from "react-router";
+import { useHistory, withRouter } from "react-router";
 
 import "../css/Dashboard.css";
 
@@ -10,17 +10,22 @@ import Usuario from "./Usuario";
 import Productos from "./Productos";
 import VentasHistorial from "./VentasHistorial";
 import RegistrarVenta from "./RegistrarVenta";
+import { useAuth, useAuthDispatch } from "../context/AuthContext";
 
 
 
 const Dashboard = (props) => {
+    const history = useHistory()
     const { match } = props;
-    const [isLogout, setIsLogout] = useState(false)
+    const auth = useAuth()
+    const authDispatch = useAuthDispatch()
     const signOut = () => {
-        localStorage.removeItem("token");
-        setIsLogout(true)
+        authDispatch({
+            type: 'deleted'
+        })
+        history.replace('/login')
     }
-    if (isLogout) {
+    if (!auth) {
         return <Redirect to="/login" />
     }
     return (

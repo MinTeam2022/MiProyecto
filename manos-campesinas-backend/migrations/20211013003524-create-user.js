@@ -21,18 +21,16 @@ module.exports = {
           isEmail: true
         }
       },
-      password: {
-        type: Sequelize.STRING,
-        set(value) {
-          this.setDataValue('password', crypto.createHash('sha256').update(value).digest('hex'))
-        }
-      },
       username: {
         type: Sequelize.STRING,
         allowNull: true,
         validate: {
           len: [3, 20]
         }
+      },
+      googleId: {
+        type: Sequelize.STRING,
+        allowNull: true
       },
       role: {
         type: Sequelize.ENUM('vendedor', 'cliente', 'admin'),

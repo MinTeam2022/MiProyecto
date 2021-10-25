@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-const PROTECTED_ATTRIBUTES = ['password']
+const PROTECTED_ATTRIBUTES = []
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -24,8 +24,8 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     name: DataTypes.STRING,
     mail: DataTypes.STRING,
-    password: DataTypes.STRING,
     username: DataTypes.STRING,
+    googleId: DataTypes.STRING,
     role: DataTypes.ENUM('cliente', 'vendedor', 'admin'),
     status: DataTypes.ENUM('activo', 'inactivo'),
     documentId: DataTypes.STRING

@@ -3,7 +3,7 @@ const router = express.Router()
 
 const { Op } = require('sequelize');
 
-const { Order, User } = require('../models')
+const { Order, User, Product, OrderProducts } = require('../models')
 
 router.get('/', async (req, res) => {
     const { clientId = null } = req.query
@@ -11,13 +11,13 @@ router.get('/', async (req, res) => {
         attributes: { exclude: ['clienteId', 'vendedorId'] },
         include: [
             {
-                attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'username'] },
+                attributes: { exclude: ['createdAt', 'updatedAt', 'username'] },
                 model: User,
                 as: 'cliente',
 
             },
             {
-                attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
                 model: User,
                 as: 'vendedor'
             }
@@ -33,7 +33,6 @@ router.get('/', async (req, res) => {
             ...findAllQuery.include[0]
         }
     }
-    console.log(findAllQuery)
 
     try {
         let orders = await Order.findAll(findAllQuery)
@@ -50,11 +49,13 @@ router.get('/:id', (req, res) => {
     Order.findOne({
         where: {
             id: id
-        }
-    }).then(order => {
+        },
+        include: 'Products'
+    }).then(async (order) => {
         if (!order) {
             res.status(404).json({ message: "order not found" })
         }
+        console.log(await order.getProducts())
         res.status(200).json(order)
     }).catch(error => {
         res.status(503).json(error)
@@ -62,13 +63,39 @@ router.get('/:id', (req, res) => {
 })
 
 
-router.post('/', async (req, res) => {
-    const { order, products } = req.body;
+router.post('/', async (req, res, next) => {
     try {
-        const newOrder = await Order.create(order)
-        res.status(201).json(newOrder);
+        const { order, products } = req.body
+        const { clientName, clientDocumentId, vendedorId } = order
+        if (!clientDocumentId) {
+            res.status(400).json({ message: "Faltan parametros" })
+        }
+        const [client, _] = await User.findOrCreate({
+            where: { documentId: clientDocumentId, role: "cliente" },
+            defaults: {
+                name: clientName
+            }
+        })
+        const newOrder = await Order.create({
+            clienteId: client.id,
+            vendedorId,
+        })
+        await Promise.all(products.map(async (p) => {
+            try {
+                const op = await Product.findOne({ where: { id: p.id } })
+                if (op) {
+                    await newOrder.addProduct(op, { through: { quantity: p.quantity } })
+                }
+            } catch (error) {
+                next(error)
+            }
+        }))
+        const productsInOrder = await newOrder.getProducts()
+        newOrder.total = productsInOrder.reduce((acc, current) => acc + current.price * current.OrderProducts.quantity, 0)
+        newOrder.save({ fields: ['total'] })
+        res.status(201).json({ message: "La orden ha sido creada" })
     } catch (error) {
-        res.status(503).json(error)
+        next(error)
     }
 
 })

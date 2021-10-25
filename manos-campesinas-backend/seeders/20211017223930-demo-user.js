@@ -15,7 +15,6 @@ module.exports = {
       {
         name: "Lina María",
         mail: "lina@gmail.com",
-        password: "lina",
         status: "activo",
         username: "linam",
         role: "admin",
@@ -24,7 +23,6 @@ module.exports = {
       {
         name: "Ricardo Reyes",
         mail: "ricardor@gmail.com",
-        password: "ricardo",
         status: "activo",
         username: "ricardor",
         role: "vendedor",
@@ -37,11 +35,10 @@ module.exports = {
         status: "activo"
       },
       {
-        name: "Manuel Ochoa",
-        mail: "molg@gmail.com",
-        password: "molg",
+        name: "Pablo X",
+        mail: "pablo@gmail.com",
         status: "activo",
-        username: "molg",
+        username: "pablo",
         role: "vendedor",
         documentId: "171819"
       },
