@@ -16,7 +16,7 @@ const VentasHistorial = (props) => {
     const [successMessage, setSuccessMessage] = useState(false)
 
     const [modalIsOpen, setModalIsOpen] = useState(false)
-    const [selectVenta, setSelectedVenta] = useState({})
+    const [selectedVenta, setSelectedVenta] = useState(null)
 
     useEffect(() => {
         fetchData()
@@ -48,6 +48,23 @@ const VentasHistorial = (props) => {
         fetchData(clienteId)
     }
 
+    const mostrarDetalleVenta = async (venta) => {
+        const response = await axios.get(backendUrl + "/orders/" + venta.id)
+        const products = response.data.Products.map(p => {
+            return {
+                id: p.id,
+                name: p.name,
+                quantity: p.OrderProducts.quantity,
+                price: p.price
+            }
+        })
+        setSelectedVenta({
+            ...venta,
+            products
+        })
+
+    }
+
     const MostrarVentasModal = venta => {
         setSelectedVenta(venta)
         setModalIsOpen(true)
@@ -61,7 +78,7 @@ const VentasHistorial = (props) => {
     return (
 
         <>
-            <h2>Busqueda de cliente</h2>
+            <h2>Busqueda por cliente</h2>
             <br></br>
             <div style={{
                 display: "flex",
@@ -97,18 +114,51 @@ const VentasHistorial = (props) => {
                             <td>{venta.cliente.documentId}</td>
                             <td>{venta.total}</td>
                             <td>
-                                <button className="products_edit_btn" onClick={() => MostrarVentasModal(venta)}>Mostrar</button>
+                                <button className="products_edit_btn" onClick={() => mostrarDetalleVenta(venta)}>Mostrar</button>
                             </td>
                         </tr>
                     )}
                 </tbody>
 
             </table>
-            {/* <HistorialVentas
-                isOpen={modalIsOpen}
-                venta={selectVenta}
-                handleClose={handleCloseModal}
-            /> */}
+            <br></br>
+            {selectedVenta &&
+                <>
+                    <h1>Venta #{selectedVenta.id}</h1>
+                    <h2>Cliente:{selectedVenta.cliente.name}</h2>
+                    <h2>Documeno cliente:{selectedVenta.cliente.documentId}</h2>
+                    <h2>Vendedor:{selectedVenta.vendedor.name}</h2>
+                    
+
+                    <table className="productos_table">
+                        <tbody className="productos_table_body">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio unitario</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                            </tr>
+                            {selectedVenta.products.map(p => (
+
+                                <tr>
+                                    <td>{p.name}</td>
+                                    <td>{p.price}</td>
+                                    <td>{p.quantity}</td>
+                                    <td>{p.quantity*p.price}</td>
+                                </tr>
+                            ))}
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><b>Total</b></td>
+                                <td><b>{selectedVenta.total}</b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                   
+
+                </>
+            }
         </>
     )
 
